@@ -107,21 +107,21 @@ class EmbeddingTransformer(nn.Module):
         x = self.encoder_embedding(x)
         x = self.positional_encoding(x)
         src_embedded = self.dropout(x)
-        
         enc_output = src_embedded
         for enc_layer in self.encoder_layers:
             enc_output = enc_layer(enc_output)
-        
+
         return enc_output
     
 class Classifier(nn.Module):
     def __init__(self, vocab_size, d_model, num_heads, num_layers, d_ff, max_seq_length):
         super().__init__()
         self.EmbeddingTransformer = EmbeddingTransformer(src_vocab_size=vocab_size, d_model=d_model, num_heads=num_heads, num_layers=num_layers, d_ff=d_ff, max_seq_length=max_seq_length)
-        self.fc1 = nn.Linear(d_model, 1)
+        self.fc1 = nn.Linear(d_model, 2)
+        self.softmax = nn.Softmax()
         
     def forward(self, x):
         embeddings = self.EmbeddingTransformer(x)
         summed_embeddings = torch.sum(embeddings, dim=1)
         score = self.fc1(summed_embeddings)
-        return score
+        return self.softmax(score)
