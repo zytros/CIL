@@ -164,3 +164,4 @@ cython_debug/
 
 archive/*
 */train_neg_full.txt
+*.pth
