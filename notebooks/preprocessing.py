@@ -49,6 +49,7 @@ def preprocess(tweets:list, normalize=['url', 'email', 'percent', 'money', 'phon
     
 def main():
     print(preprocess(["I love #pizza", "I love #pasta", "I love #food"]))
+    print(emoticons)
 
 if __name__ == '__main__':
     main()
